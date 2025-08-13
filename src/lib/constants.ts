@@ -285,6 +285,7 @@ export const DUMMY_JOBS: Job[] = [
     },
   },
 ];
+
 export const DUMMY_RESUME = {
   personalInfo: {
     name: "Harshit",
