@@ -2,10 +2,11 @@
 
 > AI-powered interview tool that analyzes answers and provides instant, personalized feedback for effective preparation.
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-View%20App-blue)](https://lovable.dev/projects/22c8fd13-a4b8-4d3a-92e5-7b9b73099412)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-View%20App-blue)](https://ai-interview-two-kappa.vercel.app/)
 [![GitHub](https://img.shields.io/github/license/devtanish/AI-Interview)](LICENSE)
 [![React](https://img.shields.io/badge/React-18+-61DAFB?logo=react)](https://reactjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5+-3178C6?logo=typescript)](https://www.typescriptlang.org/)
+[![Docker](https://img.shields.io/badge/Docker-Available-2496ED?logo=docker)](https://hub.docker.com/r/tanish2000/ai-interview)
 
 ## 📸 Screenshots
 
@@ -43,15 +44,114 @@ AI Interview is a comprehensive interview preparation platform that leverages ar
 | **Real-time** | WebSocket | Live communication |
 | **Validation** | Zod | Runtime type validation |
 | **UI Components** | shadcn/ui | Reusable component library |
+| **Containerization** | Docker | Application deployment |
 
 ## 🚀 Quick Start
 
 ### Prerequisites
 
-- Node.js 18+ and npm
+- Node.js 18+ and npm (for local development)
 - Git
+- Docker and Docker Compose (for containerized deployment)
 
-### Installation
+### Option 1: Docker Installation (Recommended)
+
+The fastest way to get started is using our pre-built Docker image:
+
+#### Using Docker Run
+
+1. **Pull and run the Docker image**
+   ```bash
+   docker run -d \
+     --name ai-interview \
+     -p 3000:80 \
+     -e VITE_CLERK_PUBLISHABLE_KEY=your_clerk_key_here \
+     -e VITE_API_BASE_URL=your_api_url_here \
+     -e VITE_WEBSOCKET_URL=your_websocket_url_here \
+     tanish2000/ai-interview:latest
+   ```
+
+2. **Access the application**
+   Open your browser and navigate to `http://localhost:3000`
+
+#### Using Docker Compose
+
+1. **Create a docker-compose.yml file**
+   ```yaml
+   version: '3.8'
+   
+   services:
+     ai-interview:
+       image: tanish2000/ai-interview:latest
+       container_name: ai-interview
+       ports:
+         - "3000:80"
+       environment:
+         - VITE_CLERK_PUBLISHABLE_KEY=your_clerk_key_here
+         - VITE_API_BASE_URL=your_api_url_here
+         - VITE_WEBSOCKET_URL=your_websocket_url_here
+       restart: unless-stopped
+   ```
+
+2. **Start the application**
+   ```bash
+   docker-compose up -d
+   ```
+
+3. **View logs (optional)**
+   ```bash
+   docker-compose logs -f ai-interview
+   ```
+
+#### Environment Variables for Docker
+
+Create a `.env` file for Docker Compose:
+
+```env
+VITE_CLERK_PUBLISHABLE_KEY=your_clerk_key_here
+VITE_API_BASE_URL=your_api_url_here
+VITE_WEBSOCKET_URL=your_websocket_url_here
+```
+
+Then update your `docker-compose.yml`:
+
+```yaml
+version: '3.8'
+
+services:
+  ai-interview:
+    image: tanish2000/ai-interview:latest
+    container_name: ai-interview
+    ports:
+      - "3000:80"
+    env_file:
+      - .env
+    restart: unless-stopped
+```
+
+#### Docker Management Commands
+
+```bash
+# Pull the latest image
+docker pull tanish2000/ai-interview:latest
+
+# Stop the container
+docker stop ai-interview
+
+# Start the container
+docker start ai-interview
+
+# Remove the container
+docker rm ai-interview
+
+# View container logs
+docker logs ai-interview
+
+# Execute commands inside the container
+docker exec -it ai-interview /bin/sh
+```
+
+### Option 2: Local Development Installation
 
 1. **Clone the repository**
    ```bash
@@ -77,15 +177,14 @@ AI Interview is a comprehensive interview preparation platform that leverages ar
    ```
 
 4. **Start the development server**
-   ```bash
+   \`\`\`bash
    npm run dev
-   ```
+   \`\`\`
 
 5. **Open your browser**
    Navigate to `http://localhost:5173`
 
 ## 📁 Project Structure
-
 ```
 AI-Interview/
 ├── public/                 # Static assets
@@ -126,7 +225,12 @@ npm run type-check   # Run TypeScript compiler
 # Testing
 npm run test         # Run tests
 npm run test:ui      # Run tests with UI
+
+# Docker (if building locally)
+docker build -t ai-interview .                    # Build Docker image
+docker run -p 3000:80 ai-interview             # Run Docker container
 ```
+
 ### Custom Domain Setup
 To use a custom domain with Lovable:
 1. Go to **Project → Settings → Domains**
@@ -141,6 +245,20 @@ To use a custom domain with Lovable:
 4. **Start Interview** - Begin your AI-powered interview session
 5. **Review Feedback** - Analyze your performance and improvement suggestions
 6. **Track Progress** - Monitor your improvement over time
+
+## 🐳 Docker Hub
+
+The application is available as a Docker image on Docker Hub:
+
+- **Repository**: [tanish2000/ai-interview](https://hub.docker.com/r/tanish2000/ai-interview)
+- **Tags Available**:
+  - `latest` - Latest stable version
+  - `v1.0.0` - Specific version tag
+
+Pull the image directly:
+\`\`\`bash
+docker pull tanish2000/ai-interview:latest
+\`\`\`
 
 ## 🤝 Contributing
 
@@ -185,6 +303,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [shadcn/ui](https://ui.shadcn.com/) - Beautiful component library
 - [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework
 - [Lovable](https://lovable.dev/) - Rapid development platform
+- [Docker](https://docker.com/) - Containerization platform
 
 ## 📈 Roadmap
 
@@ -194,6 +313,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [ ] Integration with job platforms
 - [ ] Mobile app development
 - [ ] AI interviewer personality customization
+- [ ] Kubernetes deployment support
+- [ ] Multi-architecture Docker images
 
 ---
 

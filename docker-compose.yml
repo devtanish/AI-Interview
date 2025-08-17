@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  ai-interview-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ai-interview-app
+    ports:
+      - "80:80"
+    environment:
+      - NODE_ENV=production
+      - VITE_CLERK_PUBLISHABLE_KEY=${VITE_CLERK_PUBLISHABLE_KEY}
+    networks:
+      - ai-interview-network
+    restart: unless-stopped
+
+  ai-interview-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: ai-interview-dev
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - VITE_CLERK_PUBLISHABLE_KEY=${VITE_CLERK_PUBLISHABLE_KEY}
+    volumes:
+      - .:/app
+      - /app/node_modules
+    networks:
+      - ai-interview-network
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: ai-interview-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - ai-interview-network
+    restart: unless-stopped
+
+volumes:
+  redis_data:
+
+networks:
+  ai-interview-network:
+    driver: bridge
